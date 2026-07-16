@@ -132,7 +132,8 @@ jobs:
         HUGO_BLOX_LICENSE: ${{ secrets.HUGO_BLOX_LICENSE }}
       run: |
         echo "Hugo Cache Dir: $(hugo config | grep cachedir)"
-        hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        # hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/"
+        timeout --signal=QUIT 120 hugo --minify --baseURL "${{ steps.pages.outputs.base_url }}/" || echo "TIMED OUT - see stack trace above"
 
     - name: Generate Pagefind search index (if applicable)
       run: |
